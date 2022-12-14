@@ -27,6 +27,7 @@ FrameCollectorDelegate, HTTPHandlerDelegate {
     
     weak var delegate: EngineDelegate?
     public var respondToPingWithPong: Bool = true
+    public var isLocal: Bool = false
     
     public init(transport: Transport,
                 certPinner: CertificatePinning? = nil,

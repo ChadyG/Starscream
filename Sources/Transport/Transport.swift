@@ -52,4 +52,5 @@ public protocol Transport: class {
     func disconnect()
     func write(data: Data, completion: @escaping ((Error?) -> ()))
     var usingTLS: Bool { get }
+    var isLocal: Bool { get set }
 }

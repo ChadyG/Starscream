@@ -37,6 +37,7 @@ public class FoundationTransport: NSObject, Transport, StreamDelegate {
     private var onConnect: ((InputStream, OutputStream) -> Void)?
     private var isTLS = false
     private var certPinner: CertificatePinning?
+    public var isLocal: Bool = false
     
     public var usingTLS: Bool {
         return self.isTLS

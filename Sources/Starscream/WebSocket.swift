@@ -95,6 +95,17 @@ open class WebSocket: WebSocketClient, EngineDelegate {
     private let engine: Engine
     public weak var delegate: WebSocketDelegate?
     public var onEvent: ((WebSocketEvent) -> Void)?
+
+    public var isLocal: Bool {
+        set {
+            guard let e = engine as? WSEngine else { return }
+            e.isLocal = newValue
+        }
+        get {
+            guard let e = engine as? WSEngine else { return true }
+            return e.isLocal
+        }
+    }
     
     public var request: URLRequest
     // Where the callback is executed. It defaults to the main UI thread queue.
