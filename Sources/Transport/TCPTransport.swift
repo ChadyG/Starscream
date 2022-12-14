@@ -35,6 +35,8 @@ public class TCPTransport: Transport {
     private weak var delegate: TransportEventClient?
     private var isRunning = false
     private var isTLS = false
+    private var interfaceType = NWInterface.InterfaceType.wifi
+    private var preferNoProxies = true
     
     public var usingTLS: Bool {
         return self.isTLS
@@ -77,7 +79,8 @@ public class TCPTransport: Transport {
             }, queue)
         }
         let parameters = NWParameters(tls: tlsOptions, tcp: options)
-        parameters.includePeerToPeer = true
+        parameters.requiredInterfaceType = interfaceType
+        parameters.preferNoProxies = preferNoProxies
         let conn = NWConnection(host: NWEndpoint.Host.name(parts.host, nil), port: NWEndpoint.Port(rawValue: UInt16(parts.port))!, using: parameters)
         connection = conn
         start()
