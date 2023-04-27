@@ -65,6 +65,7 @@ FrameCollectorDelegate, HTTPHandlerDelegate {
         guard let url = request.url else {
             return
         }
+        transport.isLocal = isLocal
         transport.connect(url: url, timeout: request.timeoutInterval, certificatePinning: certPinner)
     }
     
