@@ -38,6 +38,11 @@ public class TCPTransport: Transport {
     private var interfaceType = NWInterface.InterfaceType.wifi
     private var preferNoProxies = true
     
+   
+    deinit {
+        disconnect()
+    }
+ 
     public var usingTLS: Bool {
         return self.isTLS
     }
@@ -89,6 +94,7 @@ public class TCPTransport: Transport {
     public func disconnect() {
         isRunning = false
         connection?.cancel()
+        connection = nil
     }
     
     public func register(delegate: TransportEventClient) {
@@ -148,6 +154,13 @@ public class TCPTransport: Transport {
             
             // Refer to https://developer.apple.com/documentation/network/implementing_netcat_with_network_framework
             if let context = context, context.isFinal, isComplete {
+                if let delegate = s.delegate {
+                    // Let the owner of this TCPTransport decide what to do next: disconnect or reconnect?
+                    delegate.connectionChanged(state: .peerClosed)
+                } else {
+                    // No use to keep connection alive
+                    s.disconnect()
+                }
                 return
             }
             
